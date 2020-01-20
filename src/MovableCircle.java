@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 
-public abstract class MovableCircle
+public abstract class MovableCircle extends GameObject
 {
     protected Point center;
     protected double radius;
