@@ -157,5 +157,35 @@ public abstract class MovableCircle
         }
     }
 
+    // Functions to move the object in a direction by a specified amount
+    public void moveDown(double amount)
+    {
+        center.y += amount;
+        AffineTransform move = new AffineTransform();
+        move.translate(0, amount);
+        circle = move.createTransformedShape(circle);
+    }
+    public void moveUp(double amount)
+    {
+        center.y -= amount;
+        AffineTransform move = new AffineTransform();
+        move.translate(0, -amount);
+        circle = move.createTransformedShape(circle);
+    }
+    public void moveRight(double amount)
+    {
+        center.x += amount;
+        AffineTransform move = new AffineTransform();
+        move.translate(amount, 0);
+        circle = move.createTransformedShape(circle);
+    }
+    public void moveLeft(double amount)
+    {
+        center.x -= amount;
+        AffineTransform move = new AffineTransform();
+        move.translate(-amount, 0);
+        circle = move.createTransformedShape(circle);
+    }
+
 
 }
