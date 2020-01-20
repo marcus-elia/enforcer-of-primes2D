@@ -4,6 +4,7 @@ import java.awt.geom.Ellipse2D;
 
 public abstract class MovableCircle extends GameObject
 {
+    GameManager manager;
     protected Point center;
     protected double radius;
     protected Shape circle;
@@ -14,9 +15,11 @@ public abstract class MovableCircle extends GameObject
     protected double vx;
     protected double vy;
 
-    public MovableCircle(Point inputCenter, double inputRadius, double inputAngle, double inputCurSpeed,
+    public MovableCircle(GameManager inputManager,
+                         Point inputCenter, double inputRadius, double inputAngle, double inputCurSpeed,
                          double inputMaxSpeed, double inputAcceleration, double inputVx, double inputVy)
     {
+        manager = inputManager;
         center = inputCenter;
         radius = inputRadius;
         circle = new Ellipse2D.Double(center.x - radius, center.y - radius, 2*radius, 2*radius);
@@ -40,6 +43,10 @@ public abstract class MovableCircle extends GameObject
     // ==========================================
     // ------------------------------------------
 
+    public GameManager getManager()
+    {
+        return manager;
+    }
     public Point getCenter()
     {
         return center;
@@ -84,6 +91,11 @@ public abstract class MovableCircle extends GameObject
     //
     // ==========================================
     // ------------------------------------------
+
+    public void setManager(GameManager input)
+    {
+        manager = input;
+    }
     public void setAngle(double input)
     {
         angle = input;
