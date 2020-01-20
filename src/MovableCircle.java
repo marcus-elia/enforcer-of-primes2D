@@ -17,7 +17,7 @@ public abstract class MovableCircle extends GameObject
 
     public MovableCircle(GameManager inputManager,
                          Point inputCenter, double inputRadius, double inputAngle, double inputCurSpeed,
-                         double inputMaxSpeed, double inputAcceleration, double inputVx, double inputVy)
+                         double inputMaxSpeed, double inputAcceleration)
     {
         manager = inputManager;
         center = inputCenter;
