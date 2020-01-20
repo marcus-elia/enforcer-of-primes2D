@@ -15,17 +15,30 @@ public class GameManager
     {
         width = inputWidth;
         height = inputHeight;
+        currentMode = GameMode.Playing;
         gameObjects = new ArrayList<GameObject>();
         this.initializeEnforcer();
     }
 
     public void tick()
     {
-
+        if(currentMode == GameMode.Playing)
+        {
+            for(GameObject obj : gameObjects)
+            {
+                obj.tick();
+            }
+        }
     }
     public void render(Graphics2D g2d)
     {
-
+        if(currentMode == GameMode.Playing)
+        {
+            for(GameObject obj : gameObjects)
+            {
+                obj.render(g2d);
+            }
+        }
     }
 
     // ------------------------------------------
@@ -39,7 +52,7 @@ public class GameManager
     public void initializeEnforcer()
     {
         enforcer = new Enforcer(this, new Point(width / 2, height / 2),
-                20, 0, 0, 2, .1, 96);
+                32, 0, 0, 2, .1, 96);
         gameObjects.add(enforcer);
     }
 
