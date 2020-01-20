@@ -7,11 +7,11 @@ public class Enforcer extends MovableCircle
 
     public Enforcer(GameManager inputManager,
                     Point inputCenter, double inputRadius, double inputAngle, double inputCurSpeed,
-                    double inputMaxSpeed, double inputAcceleration, double inputVx, double inputVy,
+                    double inputMaxSpeed, double inputAcceleration,
                     int inputEdgeCushion)
     {
         super(inputManager, inputCenter, inputRadius, inputAngle, inputCurSpeed, inputMaxSpeed,
-                inputAcceleration, inputVx, inputVy);
+                inputAcceleration);
         movementDirection = KeyDirection.None;
         edgeCushion = inputEdgeCushion;
     }
