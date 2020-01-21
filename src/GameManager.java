@@ -11,6 +11,9 @@ public class GameManager
 
     private Enforcer enforcer;
 
+    // Which direction the user is holding the wasd keys
+    private KeyDirection currentKeyDirection;
+
     public GameManager(int inputWidth, int inputHeight)
     {
         width = inputWidth;
@@ -18,12 +21,14 @@ public class GameManager
         currentMode = GameMode.Playing;
         gameObjects = new ArrayList<GameObject>();
         this.initializeEnforcer();
+        currentKeyDirection = KeyDirection.None;
     }
 
     public void tick()
     {
         if(currentMode == GameMode.Playing)
         {
+            this.moveBasedOnKeyInput();
             for(GameObject obj : gameObjects)
             {
                 obj.tick();
@@ -81,6 +86,10 @@ public class GameManager
     {
         return gameObjects;
     }
+    public KeyDirection getCurrentKeyDirection()
+    {
+        return currentKeyDirection;
+    }
 
     // ------------------------------------------
     // ==========================================
@@ -100,6 +109,10 @@ public class GameManager
     public void setCurrentMode(GameMode input)
     {
         currentMode = input;
+    }
+    public void setCurrentKeyDirection(KeyDirection input)
+    {
+        currentKeyDirection = input;
     }
 
 
@@ -167,6 +180,55 @@ public class GameManager
             for(int i = 1; i < gameObjects.size(); i++)
             {
                 gameObjects.get(i).moveLeft(amount);
+            }
+        }
+    }
+
+
+    public void moveBasedOnKeyInput()
+    {
+        if(currentKeyDirection == KeyDirection.None)
+        {
+            return;
+        }
+        else if(currentKeyDirection == KeyDirection.Up)
+        {
+            this.moveEnforcerUp(enforcer.getCurSpeed());
+        }
+        else if(currentKeyDirection == KeyDirection.Right)
+        {
+            this.moveEnforcerRight(enforcer.getCurSpeed());
+        }
+        else if(currentKeyDirection == KeyDirection.Down)
+        {
+            this.moveEnforcerDown(enforcer.getCurSpeed());
+        }
+        else if(currentKeyDirection == KeyDirection.Left)
+        {
+            this.moveEnforcerLeft(enforcer.getCurSpeed());
+        }
+        else
+        {
+            double diagSpeed = Math.sqrt(enforcer.getCurSpeed());
+            if(currentKeyDirection == KeyDirection.UpRight)
+            {
+                this.moveEnforcerUp(diagSpeed);
+                this.moveEnforcerRight(diagSpeed);
+            }
+            else if(currentKeyDirection == KeyDirection.DownRight)
+            {
+                this.moveEnforcerDown(diagSpeed);
+                this.moveEnforcerRight(diagSpeed);
+            }
+            else if(currentKeyDirection == KeyDirection.DownLeft)
+            {
+                this.moveEnforcerDown(diagSpeed);
+                this.moveEnforcerLeft(diagSpeed);
+            }
+            else if(currentKeyDirection == KeyDirection.UpLeft)
+            {
+                this.moveEnforcerUp(diagSpeed);
+                this.moveEnforcerLeft(diagSpeed);
             }
         }
     }
