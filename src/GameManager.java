@@ -35,10 +35,26 @@ public class GameManager
     {
         if(currentMode == GameMode.Playing)
         {
+            // Have the player move and things scroll
             this.moveBasedOnKeyInput();
+
+            // Find objects that need to be removed
+            ArrayList<GameObject> toRemove = new ArrayList<GameObject>();
+
+            // Have every object update
             for(GameObject obj : gameObjects)
             {
                 obj.tick();
+                if(obj.getNeedsToBeRemoved()) // Check if it needs to be removed
+                {
+                    toRemove.add(obj);
+                }
+            }
+
+            // Iterate through the objects that need to be removed
+            for(GameObject obj : toRemove)
+            {
+                obj.removeSelf();
             }
         }
     }
