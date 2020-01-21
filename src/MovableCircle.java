@@ -212,37 +212,46 @@ public abstract class MovableCircle extends GameObject
 
 
     // For when the object is hitting a border of the level
-    public void checkAndCorrectBottomBorder()
+    // Return true if the given wall was hit
+    public boolean checkAndCorrectBottomBorder()
     {
         double overlap = center.y - manager.getBottomBorder() + radius + manager.getLineWidth()/2.0;
         if(overlap > 0)
         {
             moveUp(overlap);
+            return true;
         }
+        return false;
     }
-    public void checkAndCorrectRightBorder()
+    public boolean checkAndCorrectRightBorder()
     {
         double overlap = center.x - manager.getRightBorder() + radius + manager.getLineWidth()/2.0;
         if(overlap > 0)
         {
             moveLeft(overlap);
+            return true;
         }
+        return false;
     }
-    public void checkAndCorrectTopBorder()
+    public boolean checkAndCorrectTopBorder()
     {
         double overlap = manager.getTopBorder() - center.y + radius + manager.getLineWidth()/2.0;
         if(overlap > 0)
         {
             moveDown(overlap);
+            return true;
         }
+        return false;
     }
-    public void checkAndCorrectLeftBorder()
+    public boolean checkAndCorrectLeftBorder()
     {
         double overlap = manager.getLeftBorder() - center.x + radius + manager.getLineWidth()/2.0;
         if(overlap > 0)
         {
             moveRight(overlap);
+            return true;
         }
+        return false;
     }
 
     // ------------------------------------------
