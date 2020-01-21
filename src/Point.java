@@ -17,14 +17,14 @@ public class Point
     // ==========================================
 
     // The Euclidean distance
-    public double distanceFormula(double x1, double y1, double x2, double y2)
+    public static double distanceFormula(double x1, double y1, double x2, double y2)
     {
         return Math.sqrt((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2));
     }
     // Wrapper function
     public double distanceToPoint(Point p)
     {
-        return distanceFormula(x, y, p.x, p.y);
+        return Point.distanceFormula(x, y, p.x, p.y);
     }
 
     // This returns the angle of the ray from this point to the argument
