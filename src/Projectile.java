@@ -18,6 +18,7 @@ public class Projectile extends MovableCircle
     public void tick()
     {
         this.move();
+        this.checkBorders();
     }
 
     @Override
@@ -38,6 +39,26 @@ public class Projectile extends MovableCircle
     {
         return owner;
     }
+
+
+    // ------------------------------------------
+    // ==========================================
+    //
+    //                Movement
+    //
+    // ==========================================
+    // ------------------------------------------
+
+    // If the projectile has hit a border, remove it.
+    public void checkBorders()
+    {
+        if(this.checkAndCorrectBottomBorder() || this.checkAndCorrectLeftBorder() ||
+        this.checkAndCorrectTopBorder() || this.checkAndCorrectRightBorder())
+        {
+            this.setNeedsToBeRemoved(true);
+        }
+    }
+
 
 
 
