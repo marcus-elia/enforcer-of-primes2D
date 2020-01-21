@@ -1,9 +1,15 @@
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Enforcer extends MovableCircle
 {
     private KeyDirection movementDirection;
     private int edgeCushion;  // How close the player has to be to the wall to scroll instead of moving.
+
+    // Shooting
+    private int timeSinceLastShot;
+    private int cooldown;
+    private ArrayList<Projectile> bullets;
 
     public Enforcer(GameManager inputManager,
                     Point inputCenter, double inputRadius, double inputAngle, double inputCurSpeed,
@@ -14,6 +20,9 @@ public class Enforcer extends MovableCircle
                 inputAcceleration);
         movementDirection = KeyDirection.None;
         edgeCushion = inputEdgeCushion;
+        timeSinceLastShot = 0;
+        cooldown = 50;
+        bullets = new ArrayList<Projectile>();
     }
 
     @Override
@@ -44,6 +53,10 @@ public class Enforcer extends MovableCircle
     {
         return edgeCushion;
     }
+    public ArrayList<Projectile> getBullets()
+    {
+        return bullets;
+    }
 
     // ------------------------------------------
     // ==========================================
@@ -60,6 +73,10 @@ public class Enforcer extends MovableCircle
     public void setEdgeCushion(int input)
     {
         edgeCushion = input;
+    }
+    public void setCooldown(int input)
+    {
+        cooldown = input;
     }
 
 
@@ -113,5 +130,17 @@ public class Enforcer extends MovableCircle
             return overlap;
         }
         return 0;
+    }
+
+    // ------------------------------------------
+    // ==========================================
+    //
+    //             Game Management
+    //
+    // ==========================================
+    // ------------------------------------------
+    public void removeSelf()
+    {
+        System.out.println("Why are you trying to remove the player?");
     }
 }
