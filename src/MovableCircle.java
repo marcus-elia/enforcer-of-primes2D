@@ -4,7 +4,7 @@ import java.awt.geom.Ellipse2D;
 
 public abstract class MovableCircle extends GameObject
 {
-    GameManager manager;
+    protected GameManager manager;
     protected Point center;
     protected double radius;
     protected Shape circle;
@@ -14,6 +14,8 @@ public abstract class MovableCircle extends GameObject
     protected double acceleration;
     protected double vx;
     protected double vy;
+
+    protected boolean needsToBeRemoved;
 
     public MovableCircle(GameManager inputManager,
                          Point inputCenter, double inputRadius, double inputAngle, double inputCurSpeed,
@@ -28,6 +30,7 @@ public abstract class MovableCircle extends GameObject
         maxSpeed = inputMaxSpeed;
         acceleration = inputAcceleration;
         this.updateVxVy();
+        needsToBeRemoved = false;
     }
 
     public abstract void tick();
@@ -83,6 +86,10 @@ public abstract class MovableCircle extends GameObject
     {
         return vy;
     }
+    public boolean getNeedsToBeRemoved()
+    {
+        return needsToBeRemoved;
+    }
 
     // ------------------------------------------
     // ==========================================
@@ -111,6 +118,10 @@ public abstract class MovableCircle extends GameObject
     public void setAcceleration(double input)
     {
         acceleration = input;
+    }
+    public void setNeedsToBeRemoved(boolean input)
+    {
+        needsToBeRemoved = input;
     }
 
     // ------------------------------------------
@@ -233,6 +244,15 @@ public abstract class MovableCircle extends GameObject
             moveRight(overlap);
         }
     }
+
+    // ------------------------------------------
+    // ==========================================
+    //
+    //             Game Management
+    //
+    // ==========================================
+    // ------------------------------------------
+    public abstract void removeSelf();
 
 
 }
