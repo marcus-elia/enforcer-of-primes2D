@@ -254,6 +254,13 @@ public abstract class MovableCircle extends GameObject
         return false;
     }
 
+    // Check all four borders
+    public boolean checkAndCorrectBorders()
+    {
+        return this.checkAndCorrectLeftBorder() || this.checkAndCorrectTopBorder() ||
+                this.checkAndCorrectRightBorder() || this.checkAndCorrectBottomBorder();
+    }
+
     // ------------------------------------------
     // ==========================================
     //
