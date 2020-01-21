@@ -79,7 +79,7 @@ public class Enforcer extends MovableCircle
         double overlap = radius + edgeCushion - center.x;
         if(overlap > 0)
         {
-            center.x += overlap;
+            this.moveRight(overlap);
             return overlap;
         }
         return 0;
@@ -89,7 +89,7 @@ public class Enforcer extends MovableCircle
         double overlap = center.x - (manager.getWidth() - radius - edgeCushion);
         if(overlap > 0)
         {
-            center.x -= overlap;
+            this.moveLeft(overlap);
             return overlap;
         }
         return 0;
@@ -99,7 +99,7 @@ public class Enforcer extends MovableCircle
         double overlap = radius + edgeCushion - center.y;
         if(overlap > 0)
         {
-            center.y += overlap;
+            this.moveDown(overlap);
             return overlap;
         }
         return 0;
@@ -109,7 +109,7 @@ public class Enforcer extends MovableCircle
         double overlap = center.y - (manager.getHeight() - radius - edgeCushion);
         if(overlap > 0)
         {
-            center.y -= overlap;
+            this.moveUp(overlap);
             return overlap;
         }
         return 0;
