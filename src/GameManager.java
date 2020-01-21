@@ -19,6 +19,9 @@ public class GameManager
     // Which direction the user is holding the wasd keys
     private KeyDirection currentKeyDirection;
 
+
+    private Point clickToReactTo;  // if a click has happened, react to it in the next frame
+
     public GameManager(int inputWidth, int inputHeight)
     {
         width = inputWidth;
@@ -29,6 +32,7 @@ public class GameManager
         this.initializeEnforcer();
         this.initializeBorders();
         currentKeyDirection = KeyDirection.None;
+        clickToReactTo = null;
     }
 
     public void tick()
@@ -55,6 +59,13 @@ public class GameManager
             for(GameObject obj : toRemove)
             {
                 obj.removeSelf();
+            }
+
+            // If there was a click before this frame, have the enforcer create a bullet
+            if(clickToReactTo != null)
+            {
+                enforcer.reactToClick((int)clickToReactTo.x, (int)clickToReactTo.y);
+                clickToReactTo = null;
             }
         }
     }
@@ -333,7 +344,7 @@ public class GameManager
 
     public void reactToClick(int mx, int my)
     {
-        enforcer.reactToClick(mx, my);
+        clickToReactTo = new Point(mx, my);
     }
 
     // For clicks. Returns true if the coordinates are inside the border,
