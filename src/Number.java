@@ -126,4 +126,38 @@ public class Number extends ActiveCircle
         }
         return true;
     }
+
+
+    // ------------------------------------------
+    // ==========================================
+    //
+    //                   AI
+    //
+    // ==========================================
+    // ------------------------------------------
+
+    public Point getRandomPoint(double distance)
+    {
+        double randomAngle = Math.random()*2*Math.PI;
+        Point p = center.getPointFromHere(distance, randomAngle);
+        while(!manager.isInBounds(p, radius))
+        {
+            randomAngle = Math.random()*2*Math.PI;
+            p = center.getPointFromHere(distance, randomAngle);
+        }
+        return p;
+    }
+
+    // When the target changes, the angle has to change
+    public void updateAngle()
+    {
+        angle = center.angleToOtherPoint(target);
+        this.updateVxVy();
+    }
+
+    public void setRandomTarget(double distance)
+    {
+        this.setTarget(getRandomPoint(distance));
+        this.updateAngle();
+    }
 }
