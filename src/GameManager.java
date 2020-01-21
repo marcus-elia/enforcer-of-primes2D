@@ -3,7 +3,12 @@ import java.util.ArrayList;
 
 public class GameManager
 {
+    // The visible window dimensions
     private int width, height;
+
+    // The absolute boundaries of the level
+    private int leftBorder, topBorder, rightBorder, bottomBorder;
+    private int lineWidth;
 
     private GameMode currentMode;
 
@@ -20,7 +25,9 @@ public class GameManager
         height = inputHeight;
         currentMode = GameMode.Playing;
         gameObjects = new ArrayList<GameObject>();
+        lineWidth = 10;
         this.initializeEnforcer();
+        this.initializeBorders();
         currentKeyDirection = KeyDirection.None;
     }
 
@@ -39,11 +46,23 @@ public class GameManager
     {
         if(currentMode == GameMode.Playing)
         {
+            this.drawBorders(g2d);
             for(GameObject obj : gameObjects)
             {
                 obj.render(g2d);
             }
         }
+    }
+
+    // Draw the 4 borders of the level as white lines
+    public void drawBorders(Graphics2D g2d)
+    {
+        g2d.setColor(Color.white);
+        g2d.setStroke(new BasicStroke(lineWidth));
+        g2d.drawLine(leftBorder, topBorder, leftBorder, bottomBorder);
+        g2d.drawLine(leftBorder, topBorder, rightBorder, topBorder);
+        g2d.drawLine(rightBorder, topBorder, rightBorder, bottomBorder);
+        g2d.drawLine(rightBorder, bottomBorder, leftBorder, bottomBorder);
     }
 
     // ------------------------------------------
@@ -57,8 +76,15 @@ public class GameManager
     public void initializeEnforcer()
     {
         enforcer = new Enforcer(this, new Point(width / 2, height / 2),
-                32, 0, 0, 2, .1, 96);
+                32, 0, 2, 2, .1, 96);
         gameObjects.add(enforcer);
+    }
+    public void initializeBorders()
+    {
+        leftBorder = -512;
+        topBorder = -256;
+        rightBorder = width + 512;
+        bottomBorder = height + 256;
     }
 
 
@@ -90,6 +116,10 @@ public class GameManager
     {
         return currentKeyDirection;
     }
+    public int getLineWidth()
+    {
+        return lineWidth;
+    }
 
     // ------------------------------------------
     // ==========================================
@@ -114,6 +144,10 @@ public class GameManager
     {
         currentKeyDirection = input;
     }
+    public void setLineWidth(int input)
+    {
+        lineWidth = input;
+    }
 
 
 
@@ -132,10 +166,19 @@ public class GameManager
         // If the player tries to move too far down, scroll everything else up
         if(overlap > 0)
         {
+            bottomBorder -= amount;
+            topBorder -= amount;
             for(int i = 1; i < gameObjects.size(); i++)
             {
                 gameObjects.get(i).moveUp(amount);
             }
+        }
+
+        // Hitting the bottom border
+        overlap = enforcer.getCenter().y - bottomBorder + enforcer.getRadius() + lineWidth/2.0;
+        if(overlap > 0)
+        {
+            enforcer.moveUp(amount);
         }
     }
 
@@ -147,10 +190,19 @@ public class GameManager
         // If the player tries to move too far up, scroll everything else down
         if(overlap > 0)
         {
+            bottomBorder += amount;
+            topBorder += amount;
             for(int i = 1; i < gameObjects.size(); i++)
             {
                 gameObjects.get(i).moveDown(amount);
             }
+        }
+
+        // Hitting the top border
+        overlap = topBorder + enforcer.getRadius() - enforcer.getCenter().y + lineWidth/2.0;
+        if(overlap > 0)
+        {
+            enforcer.moveDown(amount);
         }
     }
 
@@ -162,10 +214,19 @@ public class GameManager
         // If the player tries to move too far left, scroll everything else right
         if(overlap > 0)
         {
+            leftBorder += amount;
+            rightBorder += amount;
             for(int i = 1; i < gameObjects.size(); i++)
             {
                 gameObjects.get(i).moveRight(amount);
             }
+        }
+
+        // Hitting the left border
+        overlap = leftBorder + enforcer.getRadius() - enforcer.getCenter().x + lineWidth/2.0;
+        if(overlap > 0)
+        {
+            enforcer.moveRight(amount);
         }
     }
 
@@ -177,10 +238,19 @@ public class GameManager
         // If the player tries to move too far right, scroll everything else left
         if(overlap > 0)
         {
+            leftBorder -= amount;
+            rightBorder -= amount;
             for(int i = 1; i < gameObjects.size(); i++)
             {
                 gameObjects.get(i).moveLeft(amount);
             }
+        }
+
+        // Hitting the right border
+        overlap = enforcer.getCenter().x - rightBorder + enforcer.getRadius() + lineWidth/2.0;
+        if(overlap > 0)
+        {
+            enforcer.moveLeft(amount);
         }
     }
 
