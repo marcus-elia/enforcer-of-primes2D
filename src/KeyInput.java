@@ -5,7 +5,7 @@ public class KeyInput extends KeyAdapter
 {
     private GameManager manager;
 
-    // Is the user holding down an arrow key?
+    // Is the user holding down a WASD key?
     private boolean leftArrowKey;
     private boolean rightArrowKey;
     private boolean upArrowKey;
@@ -25,22 +25,22 @@ public class KeyInput extends KeyAdapter
     {
         int key = e.getKeyCode();
 
-        if(key == KeyEvent.VK_LEFT)
+        if(key == KeyEvent.VK_A)
         {
             leftArrowKey = true;
             setManagerKeyDirection();
         }
-        if(key == KeyEvent.VK_RIGHT)
+        if(key == KeyEvent.VK_D)
         {
             rightArrowKey = true;
             setManagerKeyDirection();
         }
-        if(key == KeyEvent.VK_UP)
+        if(key == KeyEvent.VK_W)
         {
             upArrowKey = true;
             setManagerKeyDirection();
         }
-        if(key == KeyEvent.VK_DOWN)
+        if(key == KeyEvent.VK_S)
         {
             downArrowKey = true;
             setManagerKeyDirection();
