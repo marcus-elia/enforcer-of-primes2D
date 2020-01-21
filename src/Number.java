@@ -84,10 +84,7 @@ public class Number extends ActiveCircle
         g2d.drawString(Integer.toString(number), (int)center.x - pixelLength/2, (int)center.y + fontSize/2 - 3);
     }
 
-    @Override
-    public void removeSelf() {
 
-    }
 
     // ------------------------------------------
     // ==========================================
@@ -210,5 +207,35 @@ public class Number extends ActiveCircle
     {
         this.setTarget(getRandomPoint(distance));
         this.updateAngle();
+    }
+
+
+
+    // ------------------------------------------
+    // ==========================================
+    //
+    //              Game Management
+    //
+    // ==========================================
+    // ------------------------------------------
+
+    @Override
+    public void removeSelf()
+    {
+        manager.getGameObjects().remove(this);
+        manager.getNumbers().remove(this);
+    }
+
+    // When a projectile has hit this, react
+    public void getHitByProjectile(Projectile proj)
+    {
+        if(proj.getIsPlayerBullet())
+        {
+            this.setNeedsToBeRemoved(true);
+        }
+        else
+        {
+
+        }
     }
 }
