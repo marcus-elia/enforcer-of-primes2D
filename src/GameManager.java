@@ -13,6 +13,8 @@ public class GameManager
     private GameMode currentMode;
 
     private ArrayList<GameObject> gameObjects;
+    private ArrayList<Number> numbers;
+    private ArrayList<Projectile> bullets;
 
     private Enforcer enforcer;
 
@@ -27,12 +29,17 @@ public class GameManager
         width = inputWidth;
         height = inputHeight;
         currentMode = GameMode.Playing;
+
         gameObjects = new ArrayList<GameObject>();
+        numbers = new ArrayList<Number>();
+        bullets = new ArrayList<Projectile>();
         lineWidth = 10;
         this.initializeEnforcer();
         this.initializeBorders();
         currentKeyDirection = KeyDirection.None;
         clickToReactTo = null;
+        gameObjects.add(new Number(this, new Point(50, 50), 32, 0,
+                1.3, 0, 0, 37));
     }
 
     public void tick()
@@ -125,7 +132,36 @@ public class GameManager
     {
         gameObjects.add(obj);
     }
+    public void addBullet(Projectile proj)
+    {
+        bullets.add(proj);
+        gameObjects.add(proj);
+    }
+    public void addNumber(Number num)
+    {
+        numbers.add(num);
+        gameObjects.add(num);
+    }
 
+    // Returns true if the point p is not within radius of any current object
+    public boolean isOpen(Point p, double radius)
+    {
+        for(Number num : numbers)
+        {
+            if(p.distanceToPoint(num.getCenter()) < radius + num.getRadius())
+            {
+                return false;
+            }
+        }
+        for(Projectile proj : bullets)
+        {
+            if(p.distanceToPoint(proj.getCenter()) < radius + proj.getRadius())
+            {
+                return false;
+            }
+        }
+        return p.distanceToPoint(enforcer.getCenter()) < radius + enforcer.getRadius();
+    }
 
 
     // ------------------------------------------
@@ -150,6 +186,14 @@ public class GameManager
     public ArrayList<GameObject> getGameObjects()
     {
         return gameObjects;
+    }
+    public ArrayList<Number> getNumbers()
+    {
+        return numbers;
+    }
+    public ArrayList<Projectile> getBullets()
+    {
+        return bullets;
     }
     public KeyDirection getCurrentKeyDirection()
     {
