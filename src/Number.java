@@ -21,8 +21,26 @@ public class Number extends ActiveCircle
     }
 
     @Override
-    public void tick() {
+    public void tick()
+    {
+        // If at the target, set a new target
+        if(center.distanceToPoint(target) < 0.001)
+        {
+            this.setRandomTarget(3*radius);
+        }
+        // If very close to the target, go right to it
+        else if(center.distanceToPoint(target) < curSpeed)
+        {
+            this.moveLeft(target.x - center.x);
+            this.moveDown(target.y - center.y);
+        }
+        // Otherwise, move
+        else
+        {
+            this.move();
+        }
 
+        this.checkAndCorrectBorders();
     }
 
 
