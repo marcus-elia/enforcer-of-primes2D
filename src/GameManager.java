@@ -318,4 +318,17 @@ public class GameManager
             }
         }
     }
+
+    public void reactToClick(int mx, int my)
+    {
+        enforcer.reactToClick(mx, my);
+    }
+
+    // For clicks. Returns true if the coordinates are inside the border,
+    // and false if not
+    public boolean isInBounds(int mx, int my)
+    {
+        return mx > leftBorder + lineWidth && mx < rightBorder - lineWidth &&
+                my > bottomBorder + lineWidth && my < topBorder - lineWidth;
+    }
 }
