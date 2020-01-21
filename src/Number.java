@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 
 // The Number class is the enemy, a circle with a number on it
 
@@ -18,21 +19,18 @@ public class Number extends ActiveCircle
         super(inputManager, inputCenter, inputRadius, inputAngle, inputCurSpeed, inputMaxSpeed, inputAcceleration);
         number = inputNumber;
         fontSize = Number.getFontSize(number);
+        this.setRandomTarget(3*radius);
     }
 
     @Override
     public void tick()
     {
-        // If at the target, set a new target
-        if(center.distanceToPoint(target) < 0.001)
-        {
-            this.setRandomTarget(3*radius);
-        }
         // If very close to the target, go right to it
-        else if(center.distanceToPoint(target) < curSpeed)
+        if(center.distanceToPoint(target) < curSpeed)
         {
             this.moveLeft(target.x - center.x);
             this.moveDown(target.y - center.y);
+            this.setRandomTarget(3*radius);
         }
         // Otherwise, move
         else
@@ -83,7 +81,7 @@ public class Number extends ActiveCircle
         g2d.setColor(Color.WHITE);
         g2d.setFont(new Font("Tahoma", Font.BOLD, fontSize));
         int pixelLength = g2d.getFontMetrics().stringWidth(Integer.toString(number));
-        g2d.drawString(Integer.toString(number), (int)center.x - pixelLength/2, (int)center.y + 5);
+        g2d.drawString(Integer.toString(number), (int)center.x - pixelLength/2, (int)center.y + fontSize/2 - 3);
     }
 
     @Override
@@ -143,6 +141,41 @@ public class Number extends ActiveCircle
             }
         }
         return true;
+    }
+
+    // Functions to move the object in a direction by a specified amount
+    // Overriding these because the target needs to move
+    public void moveDown(double amount)
+    {
+        center.y += amount;
+        AffineTransform move = new AffineTransform();
+        move.translate(0, amount);
+        circle = move.createTransformedShape(circle);
+        target.y += amount;
+    }
+    public void moveUp(double amount)
+    {
+        center.y -= amount;
+        AffineTransform move = new AffineTransform();
+        move.translate(0, -amount);
+        circle = move.createTransformedShape(circle);
+        target.y -= amount;
+    }
+    public void moveRight(double amount)
+    {
+        center.x += amount;
+        AffineTransform move = new AffineTransform();
+        move.translate(amount, 0);
+        circle = move.createTransformedShape(circle);
+        target.x += amount;
+    }
+    public void moveLeft(double amount)
+    {
+        center.x -= amount;
+        AffineTransform move = new AffineTransform();
+        move.translate(-amount, 0);
+        circle = move.createTransformedShape(circle);
+        target.x -= amount;
     }
 
 
