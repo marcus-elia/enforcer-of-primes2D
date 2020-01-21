@@ -4,14 +4,16 @@ public class Projectile extends MovableCircle
 {
     private Color color;
     private ActiveCircle owner;
+    private boolean isPlayerBullet;  // true = from Player, false = from AI Number
 
     public Projectile(GameManager inputManager, Point inputCenter, double inputRadius, double inputAngle,
                       double inputCurSpeed, double inputMaxSpeed, double inputAcceleration,
-                      Color inputColor, ActiveCircle inputOwner)
+                      Color inputColor, ActiveCircle inputOwner, boolean inputIsPlayerBullet)
     {
         super(inputManager, inputCenter, inputRadius, inputAngle, inputCurSpeed, inputMaxSpeed, inputAcceleration);
         color = inputColor;
         owner = inputOwner;
+        isPlayerBullet = inputIsPlayerBullet;
     }
 
     @Override
@@ -35,9 +37,29 @@ public class Projectile extends MovableCircle
     //
     // ==========================================
     // ------------------------------------------
-    public MovableCircle getOwner()
+    public ActiveCircle getOwner()
     {
         return owner;
+    }
+    public boolean getIsPlayerBullet()
+    {
+        return isPlayerBullet;
+    }
+
+    // ------------------------------------------
+    // ==========================================
+    //
+    //                Setters
+    //
+    // ==========================================
+    // ------------------------------------------
+    public void setOwner(ActiveCircle input)
+    {
+        owner = input;
+    }
+    public void setIsPlayerBullet(boolean input)
+    {
+        isPlayerBullet = input;
     }
 
 
