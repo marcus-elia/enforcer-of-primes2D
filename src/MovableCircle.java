@@ -270,5 +270,8 @@ public abstract class MovableCircle extends GameObject
     // ------------------------------------------
     public abstract void removeSelf();
 
-
+    public static boolean areColliding(MovableCircle m1, MovableCircle m2)
+    {
+        return m1.getCenter().distanceToPoint(m2.getCenter()) < m1.radius + m2.radius;
+    }
 }
