@@ -163,7 +163,7 @@ public class Enforcer extends ActiveCircle
         double theta = center.angleToOtherPoint(clickPoint);
         double distanceAway = radius + 5 + 1;
         Projectile p = new Projectile(manager, center.getPointFromHere(distanceAway, theta), 5, theta,
-                4, 0, 0, Color.white, this );
+                4, 0, 0, Color.white, this, true);
         bullets.add(p);
         manager.addGameObject(p);
     }
