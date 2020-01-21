@@ -1,7 +1,7 @@
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Enforcer extends MovableCircle
+public class Enforcer extends ActiveCircle
 {
     private KeyDirection movementDirection;
     private int edgeCushion;  // How close the player has to be to the wall to scroll instead of moving.
@@ -9,7 +9,6 @@ public class Enforcer extends MovableCircle
     // Shooting
     private int timeSinceLastShot;
     private int cooldown;
-    private ArrayList<Projectile> bullets;
 
     public Enforcer(GameManager inputManager,
                     Point inputCenter, double inputRadius, double inputAngle, double inputCurSpeed,
@@ -26,8 +25,12 @@ public class Enforcer extends MovableCircle
     }
 
     @Override
-    public void tick() {
-
+    public void tick()
+    {
+        if(timeSinceLastShot < cooldown)
+        {
+            timeSinceLastShot++;
+        }
     }
 
     @Override
@@ -52,10 +55,6 @@ public class Enforcer extends MovableCircle
     public int getEdgeCushion()
     {
         return edgeCushion;
-    }
-    public ArrayList<Projectile> getBullets()
-    {
-        return bullets;
     }
 
     // ------------------------------------------
@@ -142,5 +141,27 @@ public class Enforcer extends MovableCircle
     public void removeSelf()
     {
         System.out.println("Why are you trying to remove the player?");
+    }
+
+    public void reactToClick(int mx, int my)
+    {
+        if(timeSinceLastShot < cooldown)
+        {
+            this.createBullet(mx, my);
+            timeSinceLastShot = 0;
+        }
+    }
+
+    public void createBullet(int mx, int my)
+    {
+        // If the click is too close to the player
+        if(Point.distanceFormula(center.x, center.y, mx, my) < radius + 5 || !manager.isInBounds(mx, my))
+        {
+            return;
+        }
+        Point bulletCenter = new Point(mx, my);
+        double theta = center.angleToOtherPoint(bulletCenter);
+        bullets.add(new Projectile(manager, new Point(mx, my), 5, theta,
+                4, 0, 0, Color.white, this ));
     }
 }
