@@ -101,4 +101,73 @@ public class GameManager
     {
         currentMode = input;
     }
+
+
+
+    // ------------------------------------------
+    // ==========================================
+    //
+    //               User Input
+    //
+    // ==========================================
+    // ------------------------------------------
+    public void moveEnforcerDown(double amount)
+    {
+        enforcer.moveDown(amount);
+        double overlap = enforcer.checkAndCorrectBottom();
+
+        // If the player tries to move too far down, scroll everything else up
+        if(overlap > 0)
+        {
+            for(int i = 1; i < gameObjects.size(); i++)
+            {
+                gameObjects.get(i).moveUp(amount);
+            }
+        }
+    }
+
+    public void moveEnforcerUp(double amount)
+    {
+        enforcer.moveUp(amount);
+        double overlap = enforcer.checkAndCorrectTop();
+
+        // If the player tries to move too far up, scroll everything else down
+        if(overlap > 0)
+        {
+            for(int i = 1; i < gameObjects.size(); i++)
+            {
+                gameObjects.get(i).moveDown(amount);
+            }
+        }
+    }
+
+    public void moveEnforcerLeft(double amount)
+    {
+        enforcer.moveLeft(amount);
+        double overlap = enforcer.checkAndCorrectLeft();
+
+        // If the player tries to move too far left, scroll everything else right
+        if(overlap > 0)
+        {
+            for(int i = 1; i < gameObjects.size(); i++)
+            {
+                gameObjects.get(i).moveRight(amount);
+            }
+        }
+    }
+
+    public void moveEnforcerRight(double amount)
+    {
+        enforcer.moveRight(amount);
+        double overlap = enforcer.checkAndCorrectRight();
+
+        // If the player tries to move too far right, scroll everything else left
+        if(overlap > 0)
+        {
+            for(int i = 1; i < gameObjects.size(); i++)
+            {
+                gameObjects.get(i).moveLeft(amount);
+            }
+        }
+    }
 }
