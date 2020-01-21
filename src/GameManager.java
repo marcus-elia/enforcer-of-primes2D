@@ -191,11 +191,7 @@ public class GameManager
         }
 
         // Hitting the bottom border
-        overlap = enforcer.getCenter().y - bottomBorder + enforcer.getRadius() + lineWidth/2.0;
-        if(overlap > 0)
-        {
-            enforcer.moveUp(overlap);
-        }
+        enforcer.checkAndCorrectBottomBorder();
     }
 
     public void moveEnforcerUp(double amount)
@@ -215,11 +211,7 @@ public class GameManager
         }
 
         // Hitting the top border
-        overlap = topBorder + enforcer.getRadius() - enforcer.getCenter().y + lineWidth/2.0;
-        if(overlap > 0)
-        {
-            enforcer.moveDown(overlap);
-        }
+        enforcer.checkAndCorrectTopBorder();
     }
 
     public void moveEnforcerLeft(double amount)
@@ -239,11 +231,7 @@ public class GameManager
         }
 
         // Hitting the left border
-        overlap = leftBorder + enforcer.getRadius() - enforcer.getCenter().x + lineWidth/2.0;
-        if(overlap > 0)
-        {
-            enforcer.moveRight(overlap);
-        }
+        enforcer.checkAndCorrectLeftBorder();
     }
 
     public void moveEnforcerRight(double amount)
@@ -263,11 +251,7 @@ public class GameManager
         }
 
         // Hitting the right border
-        overlap = enforcer.getCenter().x - rightBorder + enforcer.getRadius() + lineWidth/2.0;
-        if(overlap > 0)
-        {
-            enforcer.moveLeft(overlap);
-        }
+        enforcer.checkAndCorrectRightBorder();
     }
 
 
