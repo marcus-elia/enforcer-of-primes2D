@@ -116,6 +116,22 @@ public class GameManager
     {
         return currentKeyDirection;
     }
+    public int getLeftBorder()
+    {
+        return leftBorder;
+    }
+    public int getTopBorder()
+    {
+        return topBorder;
+    }
+    public int getRightBorder()
+    {
+        return rightBorder;
+    }
+    public int getBottomBorder()
+    {
+        return bottomBorder;
+    }
     public int getLineWidth()
     {
         return lineWidth;
