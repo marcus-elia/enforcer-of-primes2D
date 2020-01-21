@@ -352,6 +352,16 @@ public class GameManager
     public boolean isInBounds(int mx, int my)
     {
         return mx > leftBorder + lineWidth && mx < rightBorder - lineWidth &&
-                my < bottomBorder + lineWidth && my > topBorder - lineWidth;
+                my < bottomBorder - lineWidth && my > topBorder + lineWidth;
+    }
+
+    // Returns true if the given point is at least distance away from any edge
+    public boolean isInBounds(Point p, double distance)
+    {
+        return p.x > leftBorder + lineWidth + distance &&
+                p.x < rightBorder - lineWidth - distance &&
+                p.y < bottomBorder - lineWidth - distance &&
+                p.y > topBorder + lineWidth + distance;
+
     }
 }
