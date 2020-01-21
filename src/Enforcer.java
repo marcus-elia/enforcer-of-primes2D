@@ -145,7 +145,7 @@ public class Enforcer extends ActiveCircle
 
     public void reactToClick(int mx, int my)
     {
-        if(timeSinceLastShot < cooldown)
+        if(timeSinceLastShot == cooldown)
         {
             this.createBullet(mx, my);
             timeSinceLastShot = 0;
@@ -159,9 +159,12 @@ public class Enforcer extends ActiveCircle
         {
             return;
         }
-        Point bulletCenter = new Point(mx, my);
-        double theta = center.angleToOtherPoint(bulletCenter);
-        bullets.add(new Projectile(manager, new Point(mx, my), 5, theta,
-                4, 0, 0, Color.white, this ));
+        Point clickPoint = new Point(mx, my);
+        double theta = center.angleToOtherPoint(clickPoint);
+        double distanceAway = radius + 5 + 1;
+        Projectile p = new Projectile(manager, center.getPointFromHere(distanceAway, theta), 5, theta,
+                4, 0, 0, Color.white, this );
+        bullets.add(p);
+        manager.addGameObject(p);
     }
 }
