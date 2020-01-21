@@ -194,7 +194,7 @@ public class GameManager
         overlap = enforcer.getCenter().y - bottomBorder + enforcer.getRadius() + lineWidth/2.0;
         if(overlap > 0)
         {
-            enforcer.moveUp(amount);
+            enforcer.moveUp(overlap);
         }
     }
 
@@ -218,7 +218,7 @@ public class GameManager
         overlap = topBorder + enforcer.getRadius() - enforcer.getCenter().y + lineWidth/2.0;
         if(overlap > 0)
         {
-            enforcer.moveDown(amount);
+            enforcer.moveDown(overlap);
         }
     }
 
@@ -242,7 +242,7 @@ public class GameManager
         overlap = leftBorder + enforcer.getRadius() - enforcer.getCenter().x + lineWidth/2.0;
         if(overlap > 0)
         {
-            enforcer.moveRight(amount);
+            enforcer.moveRight(overlap);
         }
     }
 
@@ -266,7 +266,7 @@ public class GameManager
         overlap = enforcer.getCenter().x - rightBorder + enforcer.getRadius() + lineWidth/2.0;
         if(overlap > 0)
         {
-            enforcer.moveLeft(amount);
+            enforcer.moveLeft(overlap);
         }
     }
 
