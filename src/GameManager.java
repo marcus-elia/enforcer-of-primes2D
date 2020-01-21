@@ -341,6 +341,6 @@ public class GameManager
     public boolean isInBounds(int mx, int my)
     {
         return mx > leftBorder + lineWidth && mx < rightBorder - lineWidth &&
-                my > bottomBorder + lineWidth && my < topBorder - lineWidth;
+                my < bottomBorder + lineWidth && my > topBorder - lineWidth;
     }
 }
