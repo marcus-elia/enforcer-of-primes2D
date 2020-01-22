@@ -98,6 +98,10 @@ public class Number extends ActiveCircle
     {
         return target;
     }
+    public int getNumber()
+    {
+        return number;
+    }
     public boolean getIsPrime()
     {
         return isPrime;
@@ -117,6 +121,10 @@ public class Number extends ActiveCircle
     public void setIsPrime(boolean input)
     {
         isPrime = input;
+    }
+    public void setNumber(int input)
+    {
+        number = input;
     }
 
 
