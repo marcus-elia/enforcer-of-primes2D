@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Enforcer extends ActiveCircle
 {
@@ -9,6 +10,9 @@ public class Enforcer extends ActiveCircle
     // Shooting
     private int timeSinceLastShot;
     private int cooldown;
+
+    // Prime management
+    private HashMap<Integer, Boolean> isPrimeKnown;
 
     public Enforcer(GameManager inputManager,
                     Point inputCenter, double inputRadius, double inputAngle, double inputCurSpeed,
@@ -22,6 +26,7 @@ public class Enforcer extends ActiveCircle
         timeSinceLastShot = 0;
         cooldown = 50;
         bullets = new ArrayList<Projectile>();
+        this.createIsPrimeKnown();
     }
 
     @Override
@@ -43,6 +48,26 @@ public class Enforcer extends ActiveCircle
     // ------------------------------------------
     // ==========================================
     //
+    //         Initialization Functions
+    //
+    // ==========================================
+    // ------------------------------------------
+    public void createIsPrimeKnown()
+    {
+        isPrimeKnown = new HashMap<Integer, Boolean>();
+        isPrimeKnown.put(2, false);
+        for(int n = 3; n < 1000; n++)
+        {
+            if(Number.isPrime(n))
+            {
+                isPrimeKnown.put(n, false);
+            }
+        }
+    }
+
+    // ------------------------------------------
+    // ==========================================
+    //
     //                 Getters
     //
     // ==========================================
@@ -55,6 +80,10 @@ public class Enforcer extends ActiveCircle
     public int getEdgeCushion()
     {
         return edgeCushion;
+    }
+    public HashMap<Integer, Boolean> getIsPrimeKnown()
+    {
+        return isPrimeKnown;
     }
 
     // ------------------------------------------
@@ -76,6 +105,10 @@ public class Enforcer extends ActiveCircle
     public void setCooldown(int input)
     {
         cooldown = input;
+    }
+    public void setPrimeAsKnown(Integer p)
+    {
+        isPrimeKnown.replace(p, true);
     }
 
 
