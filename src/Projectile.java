@@ -21,6 +21,7 @@ public class Projectile extends MovableCircle
     {
         this.move();
         this.checkBorders();
+        this.checkForCollisions();
     }
 
     @Override
@@ -91,6 +92,18 @@ public class Projectile extends MovableCircle
     //
     // ==========================================
     // ------------------------------------------
+
+    public void checkForCollisions()
+    {
+        for(Number num : manager.getNumbers())
+        {
+            if(MovableCircle.areColliding(this, num))
+            {
+                num.getHitByProjectile(this);
+                this.setNeedsToBeRemoved(true);
+            }
+        }
+    }
 
     public void removeSelf()
     {
