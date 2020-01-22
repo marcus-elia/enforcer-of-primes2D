@@ -13,6 +13,7 @@ public class Enforcer extends ActiveCircle
 
     // Prime management
     private HashMap<Integer, Boolean> isPrimeKnown;
+    private int score;
 
     public Enforcer(GameManager inputManager,
                     Point inputCenter, double inputRadius, double inputAngle, double inputCurSpeed,
@@ -27,6 +28,7 @@ public class Enforcer extends ActiveCircle
         cooldown = 50;
         bullets = new ArrayList<Projectile>();
         this.createIsPrimeKnown();
+        score = 0;
     }
 
     @Override
@@ -85,6 +87,10 @@ public class Enforcer extends ActiveCircle
     {
         return isPrimeKnown;
     }
+    public int getScore()
+    {
+        return score;
+    }
 
     // ------------------------------------------
     // ==========================================
@@ -109,6 +115,10 @@ public class Enforcer extends ActiveCircle
     public void setPrimeAsKnown(Integer p)
     {
         isPrimeKnown.replace(p, true);
+    }
+    public void setScore(int input)
+    {
+        score = input;
     }
 
 
@@ -199,5 +209,29 @@ public class Enforcer extends ActiveCircle
                 4, 0, 0, Color.white, this, true);
         bullets.add(p);
         manager.addGameObject(p);
+    }
+
+    public void checkForCollisionsWithNumbers()
+    {
+        for(Number num : manager.getNumbers())
+        {
+            if(MovableCircle.areColliding(this, num))
+            {
+                if(num.getIsPrime())
+                {
+                    // Set the isPrimeKnown for this prime to be true. If it already
+                    // was true, then add that much to our score.
+                    if(isPrimeKnown.put(num.getNumber(), true))
+                    {
+                        score += num.getNumber();
+                    }
+                    else
+                    {
+                        System.out.println("New Prime Found: " + num.getNumber());
+                    }
+                    num.setNeedsToBeRemoved(true);
+                }
+            }
+        }
     }
 }
