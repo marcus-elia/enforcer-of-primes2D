@@ -20,6 +20,7 @@ public class Number extends ActiveCircle
         number = inputNumber;
         fontSize = Number.getFontSize(number);
         this.setRandomTarget(3*radius);
+        isPrime = Number.isPrime(number);
     }
 
     @Override
@@ -97,6 +98,10 @@ public class Number extends ActiveCircle
     {
         return target;
     }
+    public boolean getIsPrime()
+    {
+        return isPrime;
+    }
 
     // ------------------------------------------
     // ==========================================
@@ -108,6 +113,10 @@ public class Number extends ActiveCircle
     public void setTarget(Point input)
     {
         target = input;
+    }
+    public void setIsPrime(boolean input)
+    {
+        isPrime = input;
     }
 
 
