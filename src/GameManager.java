@@ -171,7 +171,7 @@ public class GameManager
     public Point getRandomPointInBounds(int radius)
     {
         double x = Math.random() * (rightBorder - leftBorder - 2*radius) + leftBorder + radius;
-        double y = Math.random() * (bottomBorder - topBorder - 2*radius) + bottomBorder + radius;
+        double y = Math.random() * (bottomBorder - topBorder - 2*radius) + topBorder + radius;
         return new Point(x, y);
     }
 
