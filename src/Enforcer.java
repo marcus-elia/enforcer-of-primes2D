@@ -268,6 +268,10 @@ public class Enforcer extends ActiveCircle
                 isPrimeKnown.replace(num.getValue(), true);
                 knownPrimes.add(num.getValue());
                 System.out.println("New Prime Found: " + num.getNumber());
+                if(knownPrimes.size() % 8 == 0)
+                {
+                    manager.setLevel(manager.getLevel() + 1);
+                }
             }
             num.setNeedsToBeRemoved(true);
         }
@@ -289,6 +293,7 @@ public class Enforcer extends ActiveCircle
             if(num.dividePositiveIntegerBy(p))
             {
                 score += p;
+                System.out.println("Score: " + score);
                 return;
             }
         }
