@@ -292,5 +292,12 @@ public class Enforcer extends ActiveCircle
                 return;
             }
         }
+
+        // If we did not have any primes to factor the number, damage it
+        num.setHealth(num.getHealth() - 10);
+        if(num.getHealth() == 0)
+        {
+            num.setNeedsToBeRemoved(true);
+        }
     }
 }
