@@ -133,7 +133,7 @@ public class PositiveInteger
         while(n > 1)
         {
             pow = PositiveInteger.maxPowerDividing(p, n);
-            if(p != 0)
+            if(pow != 0)
             {
                 factorization.put(p, pow);
                 n = n / exp(p, pow);
