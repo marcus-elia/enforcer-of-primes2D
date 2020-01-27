@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class Testing
 {
     public static void main(String[] args)
@@ -20,6 +22,7 @@ public class Testing
         testIsPrime();
         testNextPrime();
         testMaxPowerDividing();
+        testFactorNumber();
     }
 
     public static boolean testIsPrime()
@@ -260,4 +263,76 @@ public class Testing
         }
     }
 
+    public static boolean testFactorNumber()
+    {
+        boolean passed = true;
+        System.out.println("\nTesting the factorNumber() function.");
+
+        HashMap<Integer, Integer> factorization;
+
+        // Factoring 2
+        int n = 2;
+        factorization = PositiveInteger.factorNumber(n);
+        if(factorization.get(2) != 1 || factorization.containsKey(3))
+        {
+            passed = false;
+            System.out.println("FAILED test case of n = 2.");
+        }
+
+        // Factoring 11
+        n = 11;
+        factorization = PositiveInteger.factorNumber(n);
+        if(factorization.get(11) != 1 || factorization.containsKey(2) || factorization.containsKey(3))
+        {
+            passed = false;
+            System.out.println("FAILED test case of n = odd prime.");
+        }
+
+        // Factoring 2p
+        n = 26;
+        factorization = PositiveInteger.factorNumber(n);
+        if(factorization.get(2) != 1 || factorization.containsKey(5) || factorization.get(13) != 1)
+        {
+            passed = false;
+            System.out.println("FAILED test case of n = 2 * odd prime.");
+        }
+
+        // Factoring power of 2
+        n = 64;
+        factorization = PositiveInteger.factorNumber(n);
+        if(factorization.get(2) != 6 || factorization.containsKey(3) || factorization.containsKey(4))
+        {
+            passed = false;
+            System.out.println("FAILED test case of n = power of 2.");
+        }
+
+        // Factoring p * p
+        n = 91;
+        factorization = PositiveInteger.factorNumber(n);
+        if(factorization.get(7) != 1 || factorization.containsKey(2) || factorization.get(13) != 1)
+        {
+            passed = false;
+            System.out.println("FAILED test case of n = p * p.");
+        }
+
+        // Factoring number with many prime factors
+        n = 300;
+        factorization = PositiveInteger.factorNumber(n);
+        if(factorization.get(2) != 2 || factorization.get(3) != 1 || factorization.get(5) != 2)
+        {
+            passed = false;
+            System.out.println("FAILED test case of n has many prime factors.");
+        }
+
+        if(passed)
+        {
+            System.out.println("All tests passed.");
+            return true;
+        }
+        else
+        {
+            System.out.println("ERROR!");
+            return false;
+        }
+    }
 }
