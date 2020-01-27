@@ -250,11 +250,11 @@ public class Number extends ActiveCircle
     {
         if(proj.getIsPlayerBullet())
         {
-            this.setNeedsToBeRemoved(true);
+            manager.getEnforcer().reactToShootingNumber(this);
         }
         else
         {
-
+            this.setNeedsToBeRemoved(true);
         }
     }
 }
