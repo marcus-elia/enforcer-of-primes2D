@@ -17,6 +17,7 @@ public class GameManager
     private ArrayList<Projectile> bullets;
 
     private Enforcer enforcer;
+    private int level; // The difficulty
 
     // Which direction the user is holding the wasd keys
     private KeyDirection currentKeyDirection;
@@ -35,6 +36,7 @@ public class GameManager
         bullets = new ArrayList<Projectile>();
         lineWidth = 10;
         this.initializeEnforcer();
+        level = 1;
         this.initializeBorders();
         currentKeyDirection = KeyDirection.None;
         clickToReactTo = null;
@@ -175,9 +177,43 @@ public class GameManager
         return new Point(x, y);
     }
 
-    public int getRandomNumber()
+    // Returns a random integer between 2 and upperBound, not including upperBound.
+    public int getRandomNumber(int upperBound)
     {
-        return (int)(Math.random()*997.9 + 2);
+        return (int)(Math.random()*(upperBound - 0.1) + 2);
+    }
+
+    // Returns a random int, but it depends on the level.
+    // Level 1 guarantees a small primes
+    // Level 2 is mostly primes, but also small composites
+    // Level 3 is random
+    public int getRandomScaledNumber(int level)
+    {
+        if(level == 1)
+        {
+            int p = this.getRandomNumber(24);
+            while(!PositiveInteger.isPrime(p))
+            {
+                 p = this.getRandomNumber(24);
+            }
+            return p;
+        }
+        else if(level == 2)
+        {
+            int p = this.getRandomNumber(100);
+            if(Math.random() > 0.5)
+            {
+                while(!PositiveInteger.isPrime(p))
+                {
+                    p = this.getRandomNumber(100);
+                }
+            }
+            return p;
+        }
+        else
+        {
+            return this.getRandomNumber(1000);
+        }
     }
 
     public void spawnRandomNumber()
@@ -190,7 +226,8 @@ public class GameManager
             if(this.isOpen(center, radius))
             {
                 this.addNumber(new Number(this, center, radius,
-                        0, 1, 0, 0, this.getRandomNumber()));
+                        0, 1, 0, 0,
+                        this.getRandomScaledNumber(this.level)));
                 return;
             }
         }
@@ -256,6 +293,10 @@ public class GameManager
     {
         return lineWidth;
     }
+    public int getLevel()
+    {
+        return level;
+    }
 
     // ------------------------------------------
     // ==========================================
@@ -283,6 +324,10 @@ public class GameManager
     public void setLineWidth(int input)
     {
         lineWidth = input;
+    }
+    public void setLevel(int input)
+    {
+        level = input;
     }
 
 
