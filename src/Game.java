@@ -21,7 +21,7 @@ public class Game extends Canvas implements Runnable
         gameManager = new GameManager(WIDTH - BARWIDTH, HEIGHT);
         this.addKeyListener(new KeyInput(gameManager));
         //this.addMouseMotionListener(new MouseMotionInput(gameManager));
-        //this.addMouseListener(new MouseInput(gameManager));
+        this.addMouseListener(new MouseInput(gameManager));
         new Window(WIDTH, HEIGHT, "Enforcer of Primes", this);
 
     }
