@@ -2,6 +2,15 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/*
+The Enforcer is the object controlled by the player. It stores a HashMap sending each
+prime less than 999 to a boolean, to know whether we have "enforced" the prime or not.
+When we touch a prime number, that prime is now enforced. Once we have enforced a prime,
+any time we shoot a composite number, the number will be divided by that prime. If the player
+shoots an unenforced prime, nothing happens. If a composite number hits the player, the
+player loses health.
+ */
+
 public class Enforcer extends ActiveCircle
 {
     private KeyDirection movementDirection;
@@ -14,6 +23,7 @@ public class Enforcer extends ActiveCircle
     // Prime management
     private HashMap<Integer, Boolean> isPrimeKnown;
     private int score;
+    private int health;
 
     public Enforcer(GameManager inputManager,
                     Point inputCenter, double inputRadius, double inputAngle, double inputCurSpeed,
@@ -29,6 +39,7 @@ public class Enforcer extends ActiveCircle
         bullets = new ArrayList<Projectile>();
         this.createIsPrimeKnown();
         score = 0;
+        health = 100;
     }
 
     @Override
@@ -91,6 +102,10 @@ public class Enforcer extends ActiveCircle
     {
         return score;
     }
+    public int getHealth()
+    {
+        return health;
+    }
 
     // ------------------------------------------
     // ==========================================
@@ -119,6 +134,14 @@ public class Enforcer extends ActiveCircle
     public void setScore(int input)
     {
         score = input;
+    }
+    public void setHealth(int input)
+    {
+        if(health < 0)
+        {
+            health = 0;
+        }
+        health = input;
     }
 
 
@@ -230,6 +253,12 @@ public class Enforcer extends ActiveCircle
                         System.out.println("New Prime Found: " + num.getNumber());
                     }
                     num.setNeedsToBeRemoved(true);
+                }
+                // If we crash into a composite number, take damage
+                else
+                {
+                    this.setHealth(health - 1);
+                    System.out.println("Health: " + health);
                 }
             }
         }
