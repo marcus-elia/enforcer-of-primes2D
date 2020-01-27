@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 public class Number extends ActiveCircle
 {
-    private int number;
+    private PositiveInteger number;
     private boolean isPrime;
     private int fontSize;  // changes based on the number of digits
 
@@ -18,10 +18,10 @@ public class Number extends ActiveCircle
                   int inputNumber)
     {
         super(inputManager, inputCenter, inputRadius, inputAngle, inputCurSpeed, inputMaxSpeed, inputAcceleration);
-        number = inputNumber;
-        fontSize = Number.getFontSize(number);
+        number = new PositiveInteger(inputNumber);
+        fontSize = Number.getFontSize(number.getValue());
         this.setRandomTarget(3*radius);
-        isPrime = Number.isPrime(number);
+        isPrime = number.getIsPrime();
     }
 
     @Override
@@ -82,8 +82,8 @@ public class Number extends ActiveCircle
     {
         g2d.setColor(Color.WHITE);
         g2d.setFont(new Font("Tahoma", Font.BOLD, fontSize));
-        int pixelLength = g2d.getFontMetrics().stringWidth(Integer.toString(number));
-        g2d.drawString(Integer.toString(number), (int)center.x - pixelLength/2, (int)center.y + fontSize/2 - 3);
+        int pixelLength = g2d.getFontMetrics().stringWidth(number.toString());
+        g2d.drawString(number.toString(), (int)center.x - pixelLength/2, (int)center.y + fontSize/2 - 3);
     }
 
 
@@ -99,9 +99,13 @@ public class Number extends ActiveCircle
     {
         return target;
     }
-    public int getNumber()
+    public PositiveInteger getNumber()
     {
         return number;
+    }
+    public int getValue()
+    {
+        return number.getValue();
     }
     public boolean getIsPrime()
     {
@@ -125,90 +129,11 @@ public class Number extends ActiveCircle
     }
     public void setNumber(int input)
     {
-        number = input;
+        number.setValueAndUpdateFactorization(input);
     }
 
 
-    // ------------------------------------------
-    // ==========================================
-    //
-    //                 Math
-    //
-    // ==========================================
-    // ------------------------------------------
 
-    public static boolean isPrime(int n)
-    {
-        if(n == 2 || n == 3)
-        {
-            return true;
-        }
-        if(n % 2 == 0)
-        {
-            return false;
-        }
-        int upperBound = (int)Math.floor(Math.sqrt(n)) + 1;
-        for(int i = 3; i < upperBound; i += 2)
-        {
-            if(n % i == 0)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    // Integer exponentiation
-    public static int exp(int a, int m)
-    {
-        if(m == 0)
-        {
-            return 1;
-        }
-        return a * exp(a, m-1);
-    }
-
-
-    // Returns the largest power a of p such that p^a divides n
-    // For example, maxPowerDividing(3, 36) = 2.
-    public static int maxPowerDividing(int p, int n) {
-        int pow = 0;
-        while (n % p == 0) {
-            pow++;
-            n /= p;
-        }
-        return pow;
-    }
-
-    // Return the smallest prime integer that is greater than n
-    // (not including n)
-    public static int nextPrime(int n)
-    {
-        int cur = n + 1;
-        while(!Number.isPrime(cur))
-        {
-            cur++;
-        }
-        return cur;
-    }
-
-    public static HashMap<Integer, Integer> factorNumber(int n)
-    {
-        HashMap<Integer, Integer> factorization = new HashMap<Integer, Integer>();
-        int p = 2;
-        int pow;
-        while(n > 1)
-        {
-            pow = Number.maxPowerDividing(p, n);
-            if(p != 0)
-            {
-                factorization.put(p, pow);
-                n = n / exp(p, pow);
-            }
-            p = Number.nextPrime(p);
-        }
-        return factorization;
-    }
 
     // ------------------------------------------
     // ==========================================
