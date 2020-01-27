@@ -165,7 +165,7 @@ public class GameManager
                 return false;
             }
         }
-        return p.distanceToPoint(enforcer.getCenter()) < radius + enforcer.getRadius();
+        return p.distanceToPoint(enforcer.getCenter()) > radius + enforcer.getRadius();
     }
 
     public Point getRandomPointInBounds(int radius)
@@ -190,7 +190,7 @@ public class GameManager
             if(this.isOpen(center, radius))
             {
                 this.addNumber(new Number(this, center, radius,
-                        0, 0, 0, 0, this.getRandomNumber()));
+                        0, 1, 0, 0, this.getRandomNumber()));
                 return;
             }
         }
