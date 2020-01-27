@@ -13,6 +13,9 @@ public class Number extends ActiveCircle
     // Where it is trying to go
     private Point target;
 
+    private int health; // if you can't factor the number, shooting it enough will kill it
+    private Color color;
+
     public Number(GameManager inputManager, Point inputCenter, double inputRadius, double inputAngle,
                   double inputCurSpeed, double inputMaxSpeed, double inputAcceleration,
                   int inputNumber)
@@ -22,6 +25,8 @@ public class Number extends ActiveCircle
         fontSize = Number.getFontSize(number.getValue());
         this.setRandomTarget(3*radius);
         isPrime = number.getIsPrime();
+        health = 100;
+        color = Color.RED;
     }
 
     @Override
@@ -55,7 +60,7 @@ public class Number extends ActiveCircle
     @Override
     public void render(Graphics2D g2d)
     {
-        g2d.setColor(Color.RED);
+        g2d.setColor(color);
         g2d.fill(circle);
         this.drawNumber(g2d);
     }
@@ -111,6 +116,14 @@ public class Number extends ActiveCircle
     {
         return isPrime;
     }
+    public int getHealth()
+    {
+        return health;
+    }
+    public Color getColor()
+    {
+        return color;
+    }
 
     // ------------------------------------------
     // ==========================================
@@ -130,6 +143,15 @@ public class Number extends ActiveCircle
     public void setNumber(int input)
     {
         number.setValueAndUpdateFactorization(input);
+    }
+    public void setColor(Color newColor)
+    {
+        color = newColor;
+    }
+    public void setHealth(int input) // Reduce the alpha when health is lower
+    {
+        health = input;
+        this.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue(), (int)(health / 100.0 * 256)));
     }
 
 
