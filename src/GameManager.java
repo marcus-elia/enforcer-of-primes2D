@@ -38,8 +38,7 @@ public class GameManager
         this.initializeBorders();
         currentKeyDirection = KeyDirection.None;
         clickToReactTo = null;
-        this.addNumber(new Number(this, new Point(50, 50), 32, 0,
-                1.3, 0, 0, 37));
+        this.spawnRandomNumber();
     }
 
     public void tick()
@@ -73,6 +72,12 @@ public class GameManager
             {
                 enforcer.reactToClick((int)clickToReactTo.x, (int)clickToReactTo.y);
                 clickToReactTo = null;
+            }
+
+            // Create new numbers if needed
+            if(numbers.size() < 5)
+            {
+                this.spawnRandomNumber();
             }
         }
     }
@@ -161,6 +166,34 @@ public class GameManager
             }
         }
         return p.distanceToPoint(enforcer.getCenter()) < radius + enforcer.getRadius();
+    }
+
+    public Point getRandomPointInBounds(int radius)
+    {
+        double x = Math.random() * (rightBorder - leftBorder - 2*radius) + leftBorder + radius;
+        double y = Math.random() * (bottomBorder - topBorder - 2*radius) + bottomBorder + radius;
+        return new Point(x, y);
+    }
+
+    public int getRandomNumber()
+    {
+        return (int)(Math.random()*997.9 + 2);
+    }
+
+    public void spawnRandomNumber()
+    {
+        int radius = 32;
+        int numTries = 5;
+        for(int i = 0; i < numTries; i++)
+        {
+            Point center = this.getRandomPointInBounds(radius);
+            if(this.isOpen(center, radius))
+            {
+                this.addNumber(new Number(this, center, radius,
+                        0, 0, 0, 0, this.getRandomNumber()));
+                return;
+            }
+        }
     }
 
 
