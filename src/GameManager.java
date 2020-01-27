@@ -38,7 +38,7 @@ public class GameManager
         this.initializeBorders();
         currentKeyDirection = KeyDirection.None;
         clickToReactTo = null;
-        gameObjects.add(new Number(this, new Point(50, 50), 32, 0,
+        this.addNumber(new Number(this, new Point(50, 50), 32, 0,
                 1.3, 0, 0, 37));
     }
 
@@ -186,6 +186,10 @@ public class GameManager
     public ArrayList<GameObject> getGameObjects()
     {
         return gameObjects;
+    }
+    public Enforcer getEnforcer()
+    {
+        return enforcer;
     }
     public ArrayList<Number> getNumbers()
     {
