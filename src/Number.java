@@ -222,6 +222,22 @@ public class Number extends ActiveCircle
     // ==========================================
     // ------------------------------------------
 
+    // Try to divide the PositiveInteger object by n. Returns true if division happened,
+    // false if not.
+    public boolean dividePositiveIntegerBy(int n)
+    {
+        boolean divided = number.divideBy(n);
+        if(divided)
+        {
+            this.setIsPrime(number.getIsPrime());
+            if(number.getValue() == 1)
+            {
+                this.setNeedsToBeRemoved(true);
+            }
+        }
+        return divided;
+    }
+
     @Override
     public void removeSelf()
     {
