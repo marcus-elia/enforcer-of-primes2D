@@ -22,6 +22,7 @@ public class Enforcer extends ActiveCircle
 
     // Prime management
     private HashMap<Integer, Boolean> isPrimeKnown;
+    private ArrayList<Integer> knownPrimes;
     private int score;
     private int health;
 
@@ -38,6 +39,7 @@ public class Enforcer extends ActiveCircle
         cooldown = 50;
         bullets = new ArrayList<Projectile>();
         this.createIsPrimeKnown();
+        knownPrimes = new ArrayList<Integer>();
         score = 0;
         health = 100;
     }
@@ -49,6 +51,7 @@ public class Enforcer extends ActiveCircle
         {
             timeSinceLastShot++;
         }
+        this.checkForCollisionsWithNumbers();
     }
 
     @Override
@@ -71,7 +74,7 @@ public class Enforcer extends ActiveCircle
         isPrimeKnown.put(2, false);
         for(int n = 3; n < 1000; n++)
         {
-            if(Number.isPrime(n))
+            if(PositiveInteger.isPrime(n))
             {
                 isPrimeKnown.put(n, false);
             }
@@ -97,6 +100,10 @@ public class Enforcer extends ActiveCircle
     public HashMap<Integer, Boolean> getIsPrimeKnown()
     {
         return isPrimeKnown;
+    }
+    public ArrayList<Integer> getKnownPrimes()
+    {
+        return knownPrimes;
     }
     public int getScore()
     {
@@ -240,26 +247,49 @@ public class Enforcer extends ActiveCircle
         {
             if(MovableCircle.areColliding(this, num))
             {
-                if(num.getIsPrime())
-                {
-                    // Set the isPrimeKnown for this prime to be true. If it already
-                    // was true, then add that much to our score.
-                    if(isPrimeKnown.put(num.getNumber(), true))
-                    {
-                        score += num.getNumber();
-                    }
-                    else
-                    {
-                        System.out.println("New Prime Found: " + num.getNumber());
-                    }
-                    num.setNeedsToBeRemoved(true);
-                }
-                // If we crash into a composite number, take damage
-                else
-                {
-                    this.setHealth(health - 1);
-                    System.out.println("Health: " + health);
-                }
+                this.reactToCollidingWithNumber(num);
+            }
+        }
+    }
+
+    // When the player physically runs into a number
+    public void reactToCollidingWithNumber(Number num)
+    {
+        if(num.getIsPrime())
+        {
+            // Set the isPrimeKnown for this prime to be true. If it already
+            // was true, then add that much to our score.
+            if(isPrimeKnown.get(num.getValue()))
+            {
+                score += num.getValue();
+            }
+            else
+            {
+                isPrimeKnown.replace(num.getValue(), true);
+                knownPrimes.add(num.getValue());
+                System.out.println("New Prime Found: " + num.getNumber());
+            }
+            num.setNeedsToBeRemoved(true);
+        }
+        // If we crash into a composite number, take damage
+        else
+        {
+            this.setHealth(health - 1);
+            System.out.println("Health: " + health);
+        }
+    }
+
+    // When a projectile of the player hits a number
+    public void reactToShootingNumber(Number num)
+    {
+        // Try dividing it by each of our known primes. If one of them works,
+        // divide it and stop.
+        for(Integer p : knownPrimes)
+        {
+            if(num.dividePositiveIntegerBy(p))
+            {
+                score += p;
+                return;
             }
         }
     }
