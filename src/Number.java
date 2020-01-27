@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.util.HashMap;
 
 // The Number class is the enemy, a circle with a number on it
 
@@ -156,6 +157,66 @@ public class Number extends ActiveCircle
         }
         return true;
     }
+
+    // Integer exponentiation
+    public static int exp(int a, int m)
+    {
+        if(m == 0)
+        {
+            return 1;
+        }
+        return a * exp(a, m-1);
+    }
+
+
+    // Returns the largest power a of p such that p^a divides n
+    // For example, maxPowerDividing(3, 36) = 2.
+    public static int maxPowerDividing(int p, int n) {
+        int pow = 0;
+        while (n % p == 0) {
+            pow++;
+            n /= p;
+        }
+        return pow;
+    }
+
+    // Return the smallest prime integer that is greater than n
+    // (not including n)
+    public static int nextPrime(int n)
+    {
+        int cur = n + 1;
+        while(!Number.isPrime(cur))
+        {
+            cur++;
+        }
+        return cur;
+    }
+
+    public static HashMap<Integer, Integer> factorNumber(int n)
+    {
+        HashMap<Integer, Integer> factorization = new HashMap<Integer, Integer>();
+        int p = 2;
+        int pow;
+        while(n > 1)
+        {
+            pow = Number.maxPowerDividing(p, n);
+            if(p != 0)
+            {
+                factorization.put(p, pow);
+                n = n / exp(p, pow);
+            }
+            p = Number.nextPrime(p);
+        }
+        return factorization;
+    }
+
+    // ------------------------------------------
+    // ==========================================
+    //
+    //               Movement
+    //
+    // ==========================================
+    // ------------------------------------------
 
     // Functions to move the object in a direction by a specified amount
     // Overriding these because the target needs to move
